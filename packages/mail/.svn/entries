@@ -1,0 +1,58 @@
+10
+
+dir
+166
+svn://184.82.232.92/myopenwrt/packages/mail
+svn://184.82.232.92/myopenwrt
+
+
+
+2012-03-02T05:46:54.790233Z
+8
+zjhzzyf
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+e50a27de-cc27-4d45-b83a-890ea1c1ac35
+
+msmtp
+dir
+
+dovecot
+dir
+
+nullmailer
+dir
+
+procmail
+dir
+
+ssmtp
+dir
+
+mini_sendmail
+dir
+
+mutt
+dir
+
+xmail
+dir
+
+fetchmail
+dir
+
+imapfilter
+dir
+

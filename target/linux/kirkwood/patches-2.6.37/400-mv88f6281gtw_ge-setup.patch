@@ -1,0 +1,157 @@
+--- a/arch/arm/mach-kirkwood/mv88f6281gtw_ge-setup.c	2011-03-28 03:01:41.000000000 +0800
++++ b/arch/arm/mach-kirkwood/mv88f6281gtw_ge-setup.c	2012-03-22 20:24:01.000000000 +0800
+@@ -18,9 +18,7 @@
+ #include <linux/mv643xx_eth.h>
+ #include <linux/ethtool.h>
+ #include <linux/gpio.h>
+-#include <linux/leds.h>
+-#include <linux/input.h>
+-#include <linux/gpio_keys.h>
++#include <plat/mvsdio.h>
+ #include <linux/spi/flash.h>
+ #include <linux/spi/spi.h>
+ #include <linux/spi/orion_spi.h>
+@@ -38,6 +36,10 @@
+ 	.duplex		= DUPLEX_FULL,
+ };
+ 
++static struct mv643xx_eth_platform_data mv88f6281gtw_ge_ge01_data = {
++	.phy_addr	= MV643XX_ETH_PHY_ADDR(1),
++};
++
+ static struct dsa_chip_data mv88f6281gtw_ge_switch_chip_data = {
+ 	.port_names[0]	= "lan1",
+ 	.port_names[1]	= "lan2",
+@@ -52,8 +54,32 @@
+ 	.chip		= &mv88f6281gtw_ge_switch_chip_data,
+ };
+ 
++static struct mv_sata_platform_data mv88f6281gtw_ge_esata_sata_data = {
++	.n_ports	= 1,
++};
++
++struct mtd_partition mv88f6281gtw_ge_partitions[] = {
++	{
++		.name		= "U-Boot",
++		.size		= 0x00080000,
++		.offset		= 0,
++		.mask_flags	= MTD_WRITEABLE,
++	}, {
++		.name		= "Kernel",
++		.size		= 0x00200000,
++		.offset		= 0x00100000,
++	}, {
++		.name		= "RootFS",
++		.size		= 0x00d00000,
++		.offset		= 0x00300000,
++	},
++};
++
+ static const struct flash_platform_data mv88f6281gtw_ge_spi_slave_data = {
+-	.type		= "mx25l12805d",
++	.type		= "m25p128",
++	.name		= "spi_flash",
++	.parts		= mv88f6281gtw_ge_partitions,
++	.nr_parts	= ARRAY_SIZE(mv88f6281gtw_ge_partitions),
+ };
+ 
+ static struct spi_board_info __initdata mv88f6281gtw_ge_spi_slave_info[] = {
+@@ -67,72 +93,18 @@
+ 	},
+ };
+ 
+-static struct gpio_keys_button mv88f6281gtw_ge_button_pins[] = {
+-	{
+-		.code		= KEY_RESTART,
+-		.gpio		= 47,
+-		.desc		= "SWR Button",
+-		.active_low	= 1,
+-	}, {
+-		.code		= KEY_WPS_BUTTON,
+-		.gpio		= 46,
+-		.desc		= "WPS Button",
+-		.active_low	= 1,
+-	},
+-};
+-
+-static struct gpio_keys_platform_data mv88f6281gtw_ge_button_data = {
+-	.buttons	= mv88f6281gtw_ge_button_pins,
+-	.nbuttons	= ARRAY_SIZE(mv88f6281gtw_ge_button_pins),
++static struct mvsdio_platform_data mv88f6281gtw_ge_mvsdio_data = {
++	
++	.gpio_card_detect = 28,	  /* MPP47 used as SD card detect */
+ };
+ 
+-static struct platform_device mv88f6281gtw_ge_buttons = {
+-	.name		= "gpio-keys",
+-	.id		= -1,
+-	.num_resources	= 0,
+-	.dev		= {
+-		.platform_data	= &mv88f6281gtw_ge_button_data,
+-	},
+-};
+-
+-static struct gpio_led mv88f6281gtw_ge_led_pins[] = {
+-	{
+-		.name		= "gtw:green:Status",
+-		.gpio		= 20,
+-		.active_low	= 0,
+-	}, {
+-		.name		= "gtw:red:Status",
+-		.gpio		= 21,
+-		.active_low	= 0,
+-	}, {
+-		.name		= "gtw:green:USB",
+-		.gpio		= 12,
+-		.active_low	= 0,
+-	},
+-};
+-
+-static struct gpio_led_platform_data mv88f6281gtw_ge_led_data = {
+-	.leds		= mv88f6281gtw_ge_led_pins,
+-	.num_leds	= ARRAY_SIZE(mv88f6281gtw_ge_led_pins),
+-};
+-
+-static struct platform_device mv88f6281gtw_ge_leds = {
+-	.name	= "leds-gpio",
+-	.id	= -1,
+-	.dev	= {
+-		.platform_data	= &mv88f6281gtw_ge_led_data,
+-	},
+-};
+ 
+ static unsigned int mv88f6281gtw_ge_mpp_config[] __initdata = {
+-	MPP12_GPO,	/* Status#_USB pin  */
+-	MPP20_GPIO,	/* Status#_GLED pin */
+-	MPP21_GPIO,	/* Status#_RLED pin */
+-	MPP46_GPIO,	/* WPS_Switch pin   */
+-	MPP47_GPIO,	/* SW_Init pin      */
++	MPP28_GPIO    /* SD Card Detect */
+ 	0
+ };
+ 
++
+ static void __init mv88f6281gtw_ge_init(void)
+ {
+ 	/*
+@@ -140,16 +112,17 @@
+ 	 */
+ 	kirkwood_init();
+ 	kirkwood_mpp_conf(mv88f6281gtw_ge_mpp_config);
+-
++	kirkwood_sata_init(&mv88f6281gtw_ge_esata_sata_data);
+ 	kirkwood_ehci_init();
+ 	kirkwood_ge00_init(&mv88f6281gtw_ge_ge00_data);
+ 	kirkwood_ge00_switch_init(&mv88f6281gtw_ge_switch_plat_data, NO_IRQ);
++	kirkwood_ge01_init(&mv88f6281gtw_ge_ge01_data);
++	kirkwood_sdio_init(&mv88f6281gtw_ge_mvsdio_data);
+ 	spi_register_board_info(mv88f6281gtw_ge_spi_slave_info,
+ 				ARRAY_SIZE(mv88f6281gtw_ge_spi_slave_info));
+ 	kirkwood_spi_init();
+ 	kirkwood_uart0_init();
+-	platform_device_register(&mv88f6281gtw_ge_leds);
+-	platform_device_register(&mv88f6281gtw_ge_buttons);
++	
+ }
+ 
+ static int __init mv88f6281gtw_ge_pci_init(void)

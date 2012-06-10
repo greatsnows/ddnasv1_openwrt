@@ -1,0 +1,188 @@
+--- a/arch/arm/mach-kirkwood/mv88f6281gtw_ge-setup.c	2011-03-28 03:01:41.000000000 +0800
++++ b/arch/arm/mach-kirkwood/mv88f6281gtw_ge-setup.c	2012-03-22 20:24:01.000000000 +0800
+@@ -2,7 +2,7 @@
+  * arch/arm/mach-kirkwood/mv88f6281gtw_ge-setup.c
+  *
+  * Marvell 88F6281 GTW GE Board Setup
+- *
++ * Marvell 88F6281 DDNAS Wireless V3 Board Setup
+  * This file is licensed under the terms of the GNU General Public
+  * License version 2.  This program is licensed "as is" without any
+  * warranty of any kind, whether express or implied.
+@@ -20,10 +20,12 @@
+ #include <linux/gpio.h>
+ #include <linux/leds.h>
+ #include <linux/input.h>
++#include <linux/ata_platform.h>
+ #include <linux/gpio_keys.h>
+ #include <linux/spi/flash.h>
+ #include <linux/spi/spi.h>
+ #include <linux/spi/orion_spi.h>
++#include <plat/mvsdio.h>
+ #include <net/dsa.h>
+ #include <asm/mach-types.h>
+ #include <asm/mach/arch.h>
+@@ -32,6 +34,7 @@
+ #include "common.h"
+ #include "mpp.h"
+ 
++
+ static struct mv643xx_eth_platform_data mv88f6281gtw_ge_ge00_data = {
+ 	.phy_addr	= MV643XX_ETH_PHY_NONE,
+ 	.speed		= SPEED_1000,
+@@ -52,89 +55,73 @@
+ 	.chip		= &mv88f6281gtw_ge_switch_chip_data,
+ };
+ 
+-static const struct flash_platform_data mv88f6281gtw_ge_spi_slave_data = {
+-	.type		= "mx25l12805d",
++static struct mv643xx_eth_platform_data mv88f6281gtw_ge_ge01_data = {
++	.phy_addr	= MV643XX_ETH_PHY_ADDR(1),
+ };
+ 
+-static struct spi_board_info __initdata mv88f6281gtw_ge_spi_slave_info[] = {
+-	{
+-		.modalias	= "m25p80",
+-		.platform_data	= &mv88f6281gtw_ge_spi_slave_data,
+-		.irq		= -1,
+-		.max_speed_hz	= 50000000,
+-		.bus_num	= 0,
+-		.chip_select	= 0,
+-	},
++static struct mv_sata_platform_data mv88f6281gtw_ge_sata_data = {
++	.n_ports	= 1,
+ };
+ 
+-static struct gpio_keys_button mv88f6281gtw_ge_button_pins[] = {
++
++struct mtd_partition mv88f6281gtw_ge_partitions[] = {
+ 	{
+-		.code		= KEY_RESTART,
+-		.gpio		= 47,
+-		.desc		= "SWR Button",
+-		.active_low	= 1,
++		.name		= "U-Boot",
++		.size		= 0x00080000,
++		.offset		= 0,
++		.mask_flags	= MTD_WRITEABLE,
++	}, {
++		.name		= "Kernel",
++		.size		= 0x00200000,
++		.offset		= 0x00100000,
+ 	}, {
+-		.code		= KEY_WPS_BUTTON,
+-		.gpio		= 46,
+-		.desc		= "WPS Button",
+-		.active_low	= 1,
++		.name		= "rootfs",
++		.size		= 0x00d00000,
++		.offset		= 0x00300000,
++	}, {
++		.name		= "firmware",
++		.size		= 0x00f00000,
++		.offset		= 0x00100000,
+ 	},
+ };
+ 
+-static struct gpio_keys_platform_data mv88f6281gtw_ge_button_data = {
+-	.buttons	= mv88f6281gtw_ge_button_pins,
+-	.nbuttons	= ARRAY_SIZE(mv88f6281gtw_ge_button_pins),
+-};
+-
+-static struct platform_device mv88f6281gtw_ge_buttons = {
+-	.name		= "gpio-keys",
+-	.id		= -1,
+-	.num_resources	= 0,
+-	.dev		= {
+-		.platform_data	= &mv88f6281gtw_ge_button_data,
+-	},
++static const struct flash_platform_data mv88f6281gtw_ge_spi_slave_data = {
++	.type		= "m25p128",
++	.name		= "spi_flash",
++	.parts		= mv88f6281gtw_ge_partitions,
++	.nr_parts	= ARRAY_SIZE(mv88f6281gtw_ge_partitions),
+ };
+ 
+-static struct gpio_led mv88f6281gtw_ge_led_pins[] = {
++static struct spi_board_info __initdata mv88f6281gtw_ge_spi_slave_info[] = {
+ 	{
+-		.name		= "gtw:green:Status",
+-		.gpio		= 20,
+-		.active_low	= 0,
+-	}, {
+-		.name		= "gtw:red:Status",
+-		.gpio		= 21,
+-		.active_low	= 0,
+-	}, {
+-		.name		= "gtw:green:USB",
+-		.gpio		= 12,
+-		.active_low	= 0,
++		.modalias	= "m25p80",
++		.platform_data	= &mv88f6281gtw_ge_spi_slave_data,
++		.irq		= -1,
++		.max_speed_hz	= 50000000,
++		.bus_num	= 0,
++		.chip_select	= 0,
+ 	},
+ };
+ 
+-static struct gpio_led_platform_data mv88f6281gtw_ge_led_data = {
+-	.leds		= mv88f6281gtw_ge_led_pins,
+-	.num_leds	= ARRAY_SIZE(mv88f6281gtw_ge_led_pins),
++static struct mvsdio_platform_data mv88f6281gtw_ge_mvsdio_data = {
++	
++	.gpio_card_detect = 28,	  /* MPP47 used as SD card detect */
+ };
+ 
+-static struct platform_device mv88f6281gtw_ge_leds = {
+-	.name	= "leds-gpio",
+-	.id	= -1,
+-	.dev	= {
+-		.platform_data	= &mv88f6281gtw_ge_led_data,
+-	},
+-};
+ 
+ static unsigned int mv88f6281gtw_ge_mpp_config[] __initdata = {
+-	MPP12_GPO,	/* Status#_USB pin  */
+-	MPP20_GPIO,	/* Status#_GLED pin */
+-	MPP21_GPIO,	/* Status#_RLED pin */
+-	MPP46_GPIO,	/* WPS_Switch pin   */
+-	MPP47_GPIO,	/* SW_Init pin      */
++	//MPP12_GPO,	/* Status#_USB pin  */
++	//MPP20_GPIO,	/* Status#_GLED pin */
++	//MPP21_GPIO,	/* Status#_RLED pin */
++	//MPP46_GPIO,	/* WPS_Switch pin   */
++	//MPP47_GPIO,	/* SW_Init pin      */
++	MPP28_GPIO,    /* SD Card Detect */
+ 	0
+ };
+ 
+ static void __init mv88f6281gtw_ge_init(void)
+ {
++	u32 dev, rev;
+ 	/*
+ 	 * Basic setup. Needs to be called early.
+ 	 */
+@@ -148,8 +135,11 @@
+ 				ARRAY_SIZE(mv88f6281gtw_ge_spi_slave_info));
+ 	kirkwood_spi_init();
+ 	kirkwood_uart0_init();
+-	platform_device_register(&mv88f6281gtw_ge_leds);
+-	platform_device_register(&mv88f6281gtw_ge_buttons);
++	kirkwood_ge01_init(&mv88f6281gtw_ge_ge01_data);
++
++	kirkwood_sdio_init(&mv88f6281gtw_ge_mvsdio_data);
++	kirkwood_sata_init(&mv88f6281gtw_ge_sata_data);
++	kirkwood_pcie_id(&dev, &rev);
+ }
+ 
+ static int __init mv88f6281gtw_ge_pci_init(void)
+@@ -161,7 +151,7 @@
+ }
+ subsys_initcall(mv88f6281gtw_ge_pci_init);
+ 
+-MACHINE_START(MV88F6281GTW_GE, "Marvell 88F6281 GTW GE Board")
++MACHINE_START(MV88F6281GTW_GE, "DDNAS Wireless V3")
+ 	/* Maintainer: Lennert Buytenhek <buytenh@marvell.com> */
+ 	.atag_offset	= 0x100,
+ 	.init_machine	= mv88f6281gtw_ge_init,

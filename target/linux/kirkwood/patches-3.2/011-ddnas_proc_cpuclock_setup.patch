@@ -1,0 +1,48 @@
+--- a/arch/arm/kernel/setup.c	2010-12-10 05:29:45.000000000 +0800
++++ b/arch/arm/kernel/setup.c	2011-06-14 16:10:36.779702881 +0800
+@@ -78,6 +78,7 @@
+ extern void paging_init(struct machine_desc *desc);
+ extern void sanity_check_meminfo(void);
+ extern void reboot_setup(char *str);
++extern int getFlashSize; 
+ 
+ unsigned int processor_id;
+ EXPORT_SYMBOL(processor_id);
+@@ -1009,7 +1010,14 @@
+ static int c_show(struct seq_file *m, void *v)
+ {
+ 	int i;
+-
++//  PATCH : check cpu is 88FR131 chang  6281
++                if(machine_name == "DDNAS Wireless V1")
++cpu_name = "Marvell 88F6281";
++                if(machine_name == "DDNAS Wireless V2")
++cpu_name = "Marvell 88F6282";
++                if(machine_name == "DDNAS Wireless V3")
++cpu_name = "Marvell 88F6281";
++////////////////////////////////////////////
+ 	seq_printf(m, "Processor\t: %s rev %d (%s)\n",
+ 		   cpu_name, read_cpuid_id() & 15, elf_platform);
+ 
+@@ -1024,13 +1032,20 @@
+ 		seq_printf(m, "BogoMIPS\t: %lu.%02lu\n\n",
+ 			   per_cpu(cpu_data, i).loops_per_jiffy / (500000UL/HZ),
+ 			   (per_cpu(cpu_data, i).loops_per_jiffy / (5000UL/HZ)) % 100);
++		seq_printf(m, "CPUClock\t: %lu.%02lu\n\n",
++			   per_cpu(cpu_data, i).loops_per_jiffy / (500000UL/HZ),
++			   (per_cpu(cpu_data, i).loops_per_jiffy / (5000UL/HZ)) % 100);
+ 	}
+ #else /* CONFIG_SMP */
+ 	seq_printf(m, "BogoMIPS\t: %lu.%02lu\n",
+ 		   loops_per_jiffy / (500000/HZ),
+ 		   (loops_per_jiffy / (5000/HZ)) % 100);
++	seq_printf(m, "CPUClock\t: %lu.%02lu\n",
++		   loops_per_jiffy / (500000/HZ),
++		   (loops_per_jiffy / (5000/HZ)) % 100);
+ #endif
+-
++	/* dump out FlashSize */
++		seq_printf(m, "FlashSize\t: %d\n",getFlashSize); 
+ 	/* dump out the processor features */
+ 	seq_puts(m, "Features\t: ");
+ 

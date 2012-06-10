@@ -1,0 +1,85 @@
+10
+
+dir
+166
+svn://184.82.232.92/myopenwrt/packages/net/freeswitch/files/etc.packages
+svn://184.82.232.92/myopenwrt
+
+
+
+2012-03-02T04:56:02.907487Z
+1
+zjhzzyf
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+e50a27de-cc27-4d45-b83a-890ea1c1ac35
+
+pocketsphinx
+dir
+
+tts_commandline
+dir
+
+syslog
+dir
+
+say-ru
+dir
+
+logfile
+dir
+
+say-de
+dir
+
+rtmp
+dir
+
+cdr_csv
+dir
+
+say-he
+dir
+
+say-en
+dir
+
+say-fr
+dir
+
+sms
+dir
+
+http_cache
+dir
+
+event_multicast
+dir
+
+xml-cdr
+dir
+
+blacklist
+dir
+
+voicemail
+dir
+
+cdr_pg_csv
+dir
+
+unimrcp
+dir
+

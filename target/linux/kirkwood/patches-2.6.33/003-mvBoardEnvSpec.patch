@@ -1,0 +1,187 @@
+--- a/arch/arm/mach-feroceon-kw/kw_family/boardEnv/mvBoardEnvSpec.c	2010-09-16 16:34:38.000000000 +0800
++++ b/arch/arm/mach-feroceon-kw/kw_family/boardEnv/mvBoardEnvSpec.c	2011-07-19 21:16:45.000000000 +0800
+@@ -67,14 +67,9 @@
+ #include "twsi/mvTwsi.h"
+ 
+ #define DB_88F6281A_BOARD_PCI_IF_NUM            0x0
+-
+-//Patch by QNAP: RTC fixed
+-//#define DB_88F6281A_BOARD_TWSI_DEF_NUM            0x7
+-#define DB_88F6281A_BOARD_TWSI_DEF_NUM              0x8
+-////////////////////////////////////////////////
+-
++#define DB_88F6281A_BOARD_TWSI_DEF_NUM		    0x0
+ #define DB_88F6281A_BOARD_MAC_INFO_NUM		    0x2
+-#define DB_88F6281A_BOARD_GPP_INFO_NUM		    0x1
++#define DB_88F6281A_BOARD_GPP_INFO_NUM		    0x3
+ #define DB_88F6281A_BOARD_MPP_CONFIG_NUM		0x1
+ #define DB_88F6281A_BOARD_MPP_GROUP_TYPE_NUM	0x1
+ #if defined(MV_NAND) && defined(MV_NAND_BOOT)
+@@ -92,44 +87,27 @@
+ 
+ MV_BOARD_TWSI_INFO	db88f6281AInfoBoardTwsiDev[] =
+ 	/* {{MV_BOARD_DEV_CLASS	devClass, MV_U8	twsiDevAddr, MV_U8 twsiDevAddrType}} */
+-	{
+-	{BOARD_DEV_TWSI_EXP, 0x20, ADDR7_BIT},
+-	{BOARD_DEV_TWSI_EXP, 0x21, ADDR7_BIT},
+-	{BOARD_DEV_TWSI_EXP, 0x27, ADDR7_BIT},
+-	{BOARD_DEV_TWSI_SATR, 0x4C, ADDR7_BIT},
+-	{BOARD_DEV_TWSI_SATR, 0x4D, ADDR7_BIT},
+-	{BOARD_DEV_TWSI_SATR, 0x4E, ADDR7_BIT},
+-	{BOARD_TWSI_AUDIO_DEC, 0x4A, ADDR7_BIT},
+-//Patch by QNAP: RTC fixed
+-	{BOARD_TWSI_RTC,0x30,ADDR7_BIT},
+-////////////////////////////////////////////// 
+-	};
++	{{BOARD_TWSI_OTHER, 0x0, ADDR7_BIT}};
+ 
+ MV_BOARD_MAC_INFO db88f6281AInfoBoardMacInfo[] = 
+ 	/* {{MV_BOARD_MAC_SPEED	boardMacSpeed, MV_U8 boardEthSmiAddr}} */
+ 	{
+-        {BOARD_MAC_SPEED_AUTO, 0x8},
+-        //Patch by QNAP:Fix GE1
+-#if defined(TS419)
+-        {BOARD_MAC_SPEED_AUTO, 0x0},
+-#else
+-        {BOARD_MAC_SPEED_AUTO, 0x9},
+-#endif
++	{BOARD_MAC_SPEED_AUTO, 0x8},
++	{BOARD_MAC_SPEED_AUTO, 0x18}
+ 	}; 
+ 
+ MV_BOARD_MPP_TYPE_INFO db88f6281AInfoBoardMppTypeInfo[] = 
+ 	/* {{MV_BOARD_MPP_TYPE_CLASS	boardMppGroup1,
+  		MV_BOARD_MPP_TYPE_CLASS	boardMppGroup2}} */
+-	{{MV_BOARD_AUTO, MV_BOARD_AUTO}
++	{{MV_BOARD_RGMII, MV_BOARD_AUTO}
+ 	}; 
+ 
+ MV_BOARD_GPP_INFO db88f6281AInfoBoardGppInfo[] = 
+ 	/* {{MV_BOARD_GPP_CLASS	devClass, MV_U8	gppPinNum}} */
+ 	{
+-	{BOARD_GPP_TSU_DIRCTION, 33}
+-	/*muxed with TDM/Audio module via IOexpender
+-	{BOARD_GPP_SDIO_DETECT, 38},
+-	{BOARD_GPP_USB_VBUS, 49}*/
++	{BOARD_GPP_BUTTON, 16},
++	{BOARD_GPP_WPS_BUTTON, 15},
++	{BOARD_GPP_POWER_ON_LED, 42},
+ 	};
+ 
+ MV_DEV_CS_INFO db88f6281AInfoBoardDeCsInfo[] = 
+@@ -835,12 +813,7 @@
+ 
+ 
+ #define DB_88F6282A_BOARD_PCI_IF_NUM            0x0
+-
+-//Patch by QNAP: RTC fixed
+-//#define DB_88F6282A_BOARD_TWSI_DEF_NUM            0x7
+-#define DB_88F6282A_BOARD_TWSI_DEF_NUM              0x8
+-////////////////////////////////////////////////
+-
++#define DB_88F6282A_BOARD_TWSI_DEF_NUM		    0x7
+ #define DB_88F6282A_BOARD_MAC_INFO_NUM		    0x2
+ #define DB_88F6282A_BOARD_GPP_INFO_NUM		    0x1
+ #define DB_88F6282A_BOARD_MPP_CONFIG_NUM		0x1
+@@ -867,19 +840,17 @@
+ 	{BOARD_DEV_TWSI_SATR, 0x4C, ADDR7_BIT},
+ 	{BOARD_DEV_TWSI_SATR, 0x4D, ADDR7_BIT},
+ 	{BOARD_DEV_TWSI_SATR, 0x4E, ADDR7_BIT},
+-	{BOARD_TWSI_AUDIO_DEC, 0x4A, ADDR7_BIT},
+-//Patch by QNAP: RTC fixed
+-	{BOARD_TWSI_RTC,0x30,ADDR7_BIT},
+-////////////////////////////////////////////// 
++	{BOARD_TWSI_AUDIO_DEC, 0x4A, ADDR7_BIT}
+ 	};
+ 
+ MV_BOARD_MAC_INFO db88f6282AInfoBoardMacInfo[] = 
+ 	/* {{MV_BOARD_MAC_SPEED	boardMacSpeed, MV_U8 boardEthSmiAddr}} */
+ 	{
+-// roylin modify for network chip 88E1310
++//QNAP Patch network PHY ID
+ 	{BOARD_MAC_SPEED_AUTO, 0x0},
+ 	{BOARD_MAC_SPEED_AUTO, 0x1}
+-	}; 
++//////////////////////////////////////
++	};
+ 
+ MV_BOARD_MPP_TYPE_INFO db88f6282AInfoBoardMppTypeInfo[] = 
+ 	/* {{MV_BOARD_MPP_TYPE_CLASS	boardMppGroup1,
+
+--- a/arch/arm/mach-feroceon-kw/kw_family/boardEnv/mvBoardEnvSpec.h	2010-09-16 16:34:38.000000000 +0800
++++ b/arch/arm/mach-feroceon-kw/kw_family/boardEnv/mvBoardEnvSpec.h	2011-07-19 21:13:23.000000000 +0800
+@@ -143,43 +143,21 @@
+ #define MV_MAX_BOARD_ID 			(DB_88F6282A_BP_ID + 1)
+ 
+ /* DB-88F6281A-BP */
+-//Patch by QNAP: PIC and GPIO
+-#ifdef CONFIG_MACH_QNAPTS
+-#if defined(TS119) || defined(TS219) || defined(TS118) || defined(TS218)
+-#define DB_88F6281A_MPP0_7                      0x01112222
+-#define DB_88F6281A_MPP8_15                     0x03303311
+-#define DB_88F6281A_MPP16_23                    0x55551100
+-#define DB_88F6281A_MPP24_31                    0x00000000
+-#define DB_88F6281A_MPP32_39                    0x00000000
+-#define DB_88F6281A_MPP40_47                    0x00000000
+-#define DB_88F6281A_MPP48_55                    0x00000000
+-#elif defined(TS419)
+-#define DB_88F6281A_MPP0_7                      0x01112222
+-#define DB_88F6281A_MPP8_15                     0x43303311
+-#define DB_88F6281A_MPP16_23                    0x33330004
+-#define DB_88F6281A_MPP24_31                    0x33003333
+-#define DB_88F6281A_MPP32_39                    0x00000033
+-#define DB_88F6281A_MPP40_47                    0x00000000
+-#define DB_88F6281A_MPP48_55                    0x00000000
+-#endif
+-#endif
+-/////////////////////////////////////////////
+-#define DB_88F6281A_OE_LOW                       ~(BIT7)
+-#define DB_88F6281A_OE_HIGH                      0x039F0
+-#define DB_88F6281A_OE_VAL_LOW                   0x80
+-#define DB_88F6281A_OE_VAL_HIGH                  0x3C000
+-
++#define DB_88F6281A_MPP0_7                   	0x01552222
++#define DB_88F6281A_MPP8_15                   	0x00003311
++#define DB_88F6281A_MPP16_23                   	0x33330000
++#define DB_88F6281A_MPP24_31                   	0x33003333
++#define DB_88F6281A_MPP32_39                   	0x00000333
++#define DB_88F6281A_MPP40_47                   	0x00000000
++#define DB_88F6281A_MPP48_55                   	0x00000000
++#define DB_88F6281A_OE_LOW                       (BIT15 | BIT16)
++#define DB_88F6281A_OE_HIGH                      (BIT4 | BIT12)
++#define DB_88F6281A_OE_VAL_LOW                   0x0
++#define DB_88F6281A_OE_VAL_HIGH                  (BIT10)
+ 
+ /* DB-88F6282A-BP */
+-#if defined(TS119) || defined(TS219)||defined(TS118) || defined(TS218)
+-#define DB_88F6282A_MPP0_7                      0x01112222
+-#define DB_88F6282A_MPP8_15                     0x03303311
+-#define DB_88F6282A_MPP16_23                    0x55550000
+-#define DB_88F6282A_MPP24_31                    0x00000000
+-#define DB_88F6282A_MPP32_39                    0x00000000
+-#define DB_88F6282A_MPP40_47                    0x00000000
+-#define DB_88F6282A_MPP48_55                    0x00000000
+-#elif defined(TS419)
++//Patch by QNAP:Fix GPP mapping
++//Patch by QNAP:Fix OnBoard SATA LED and Ethernet LED
+ #define DB_88F6282A_MPP0_7                      0x01112222
+ #define DB_88F6282A_MPP8_15                     0x43303311
+ #define DB_88F6282A_MPP16_23                    0x33330004
+@@ -187,13 +165,10 @@
+ #define DB_88F6282A_MPP32_39                    0x00000033
+ #define DB_88F6282A_MPP40_47                    0x00000000
+ #define DB_88F6282A_MPP48_55                    0x00000000
+-#endif
+-
+-#define DB_88F6282A_OE_LOW                       ~(BIT7)
+-#define DB_88F6282A_OE_HIGH                      0x000039F0
+-#define DB_88F6282A_OE_VAL_LOW                   0x80
+-#define DB_88F6282A_OE_VAL_HIGH                  0x3C000
+-
++#define DB_88F6282A_OE_LOW                      ~(BIT7)
++#define DB_88F6282A_OE_HIGH                     0x000039F0 // roylin modify
++#define DB_88F6282A_OE_VAL_LOW                  0x0
++#define DB_88F6282A_OE_VAL_HIGH                 0x3C000    // HDD LED GREEN
+ 
+ /* RD-88F6281A */
+ #if defined(MV_NAND)

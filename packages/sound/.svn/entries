@@ -1,0 +1,82 @@
+10
+
+dir
+166
+svn://184.82.232.92/myopenwrt/packages/sound
+svn://184.82.232.92/myopenwrt
+
+
+
+2012-03-02T04:56:02.907487Z
+1
+zjhzzyf
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+e50a27de-cc27-4d45-b83a-890ea1c1ac35
+
+mpc
+dir
+
+mpd
+dir
+
+ices
+dir
+
+listener
+dir
+
+mt-daapd
+dir
+
+madplay
+dir
+
+empcd
+dir
+
+pianobar
+dir
+
+mocp
+dir
+
+flite
+dir
+
+mpdas
+dir
+
+scmpc
+dir
+
+shell-fm
+dir
+
+cmus
+dir
+
+sox
+dir
+
+pulseaudio
+dir
+
+streamripper
+dir
+
+lame
+dir
+

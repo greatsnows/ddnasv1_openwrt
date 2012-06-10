@@ -1,0 +1,33 @@
+--- a/arch/arm/kernel/setup.c	2010-12-10 05:29:45.000000000 +0800
++++ b/arch/arm/kernel/setup.c	2011-06-14 16:10:36.779702881 +0800
+@@ -838,14 +838,21 @@
+ 		seq_printf(m, "BogoMIPS\t: %lu.%02lu\n\n",
+ 			   per_cpu(cpu_data, i).loops_per_jiffy / (500000UL/HZ),
+ 			   (per_cpu(cpu_data, i).loops_per_jiffy / (5000UL/HZ)) % 100);
++		seq_printf(m, "CPUClock\t: %lu.%02lu\n\n",
++			   per_cpu(cpu_data, i).loops_per_jiffy / (500000UL/HZ),
++			   (per_cpu(cpu_data, i).loops_per_jiffy / (5000UL/HZ)) % 100);
+ 	}
+ #else /* CONFIG_SMP */
+ 	seq_printf(m, "BogoMIPS\t: %lu.%02lu\n",
+ 		   loops_per_jiffy / (500000/HZ),
+ 		   (loops_per_jiffy / (5000/HZ)) % 100);
++	seq_printf(m, "CPUClock\t: %lu.%02lu\n",
++		   loops_per_jiffy / (500000/HZ),
++		   (loops_per_jiffy / (5000/HZ)) % 100);
+ #endif
+ 
+ 	/* dump out the processor features */
++	seq_printf(m, "FlashSize\t: 16384\n");
+ 	seq_puts(m, "Features\t: ");
+ 
+ 	for (i = 0; hwcap_str[i]; i++)
+@@ -875,7 +882,7 @@
+ 
+ 	seq_puts(m, "\n");
+ 
+-	seq_printf(m, "Hardware\t: %s\n", machine_name);
++	seq_printf(m, "Hardware\t: DDNAS Wireless\n");
+ 	seq_printf(m, "Revision\t: %04x\n", system_rev);
+ 	seq_printf(m, "Serial\t\t: %08x%08x\n",
+ 		   system_serial_high, system_serial_low);

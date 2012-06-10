@@ -1,0 +1,64 @@
+--- a/arch/arm/mach-feroceon-kw/flashmap.c	2011-09-11 14:26:36.000000000 +0800
++++ b/arch/arm/mach-feroceon-kw/flashmap1.c	2011-09-11 20:41:47.126516320 +0800
+@@ -69,7 +69,7 @@
+ //Patch by QNAP: SPI Boot Flash fixed
+ #ifdef CONFIG_MACH_QNAPTS
+ static struct mtd_partition TS_partitions[] = {
+-        {
++       {
+           .name = "U-Boot",
+           .offset = 0x00000000,
+           .size = 0x00080000,
+@@ -77,20 +77,14 @@
+         },
+         {
+           .name = "Kernel",             // default kernel image //
+-          .offset = 0x00200000,
++          .offset = 0x00100000,
+           .size = 0x00200000,
+           .mask_flags = 0x0,
+         },
+         {
+-          .name = "RootFS",
+-          .offset = 0x00400000,
+-          .size = 0x00900000,
+-          .mask_flags = 0x0,
+-        },
+-        {
+-          .name = "RootFS2",
+-          .offset = 0x00d00000,
+-          .size = 0x00300000,
++          .name = "rootfs",
++          .offset = 0x00300000,
++          .size = 0x00d00000,
+           .mask_flags = 0x0,
+         },
+         {
+@@ -98,13 +92,13 @@
+           .offset = 0x00080000,
+           .size = 0x00040000,
+           .mask_flags = 0x0,
+-        },      
++        },
+         {
+-          .name = "NAS Config",
+-          .offset = 0x000c0000,
+-          .size = 0x00140000,
++          .name = "firmware",
++	 .size	= 0x00f00000,
++	 .offset = 0x00100000,
+           .mask_flags = 0x0,
+-        },      
++        },   
+ };
+ #endif //CONFIG_MACH_QNAPTS
+ 
+@@ -237,7 +231,7 @@
+ //Patch by QNAP: SPI Boot Flash fixed
+ #ifdef CONFIG_MACH_QNAPTS
+ 			mtd_parts=TS_partitions;
+-			mtd_parts_nb=6;
++			mtd_parts_nb=5;
+ #else            
+ 			mtd_parts_nb = parse_mtd_partitions(*mtd, part_probes, &mtd_parts, 0);
+ #endif //CONFIG_MACH_QNAPTS

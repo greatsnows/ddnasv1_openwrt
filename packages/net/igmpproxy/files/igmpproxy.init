@@ -1,0 +1,31 @@
+#!/bin/sh /etc/rc.common
+# Copyright (C) 2010-2011 OpenWrt.org
+
+START=99
+STOP=10
+
+SERVICE_DAEMONIZE=1
+SERVICE_WRITE_PID=1
+
+# igmpproxy supports both a debug mode and verbosity, which are very useful
+# when something isn't working.
+#
+# Debug mode will print everything to stdout instead of syslog. Generally
+# verbosity should NOT be set as it will quickly fill your syslog.
+#
+# Put any debug or verbosity options into IGMP_OPTS
+#
+# Examples:
+# OPTIONS="-d -v -v" - debug mode and very verbose, this will land in
+#                        stdout and not in syslog
+# OPTIONS="-v" - be verbose, this will write aditional information to syslog
+
+OPTIONS=""
+
+start() {
+	service_start /usr/sbin/igmpproxy $OPTIONS /etc/igmpproxy.conf
+}
+
+stop() {
+	service_stop /usr/sbin/igmpproxy
+}

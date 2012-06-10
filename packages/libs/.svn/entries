@@ -1,0 +1,697 @@
+10
+
+dir
+166
+svn://184.82.232.92/myopenwrt/packages/libs
+svn://184.82.232.92/myopenwrt
+
+
+
+2012-03-02T04:56:02.907487Z
+1
+zjhzzyf
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+e50a27de-cc27-4d45-b83a-890ea1c1ac35
+
+libsdl_sound
+dir
+
+libplist
+dir
+
+jpeg
+dir
+
+librsync
+dir
+
+libao
+dir
+
+avahi
+dir
+
+radiusclient-ng
+dir
+
+fftw3
+dir
+
+libdaemon
+dir
+
+libcap
+dir
+
+libv4l
+dir
+
+libgcrypt
+dir
+
+ezxml
+dir
+
+neon
+dir
+
+protobuf
+dir
+
+libspe2
+dir
+
+libnetfilter-conntrack
+dir
+
+gperf
+dir
+
+postgresql
+dir
+
+libiconv-full
+dir
+
+cyrus-sasl
+dir
+
+id3lib
+dir
+
+re
+dir
+
+dbus-glib
+dir
+
+bluez-libs
+dir
+
+libxml2
+dir
+
+sctp
+dir
+
+tcp_wrappers
+dir
+
+liboil
+dir
+
+c-ares
+dir
+
+libsoup
+dir
+
+check
+dir
+
+newt
+dir
+
+libnet-1.1.x
+dir
+
+libdnet
+dir
+
+classpath
+dir
+
+libmms
+dir
+
+opencdk
+dir
+
+gettext
+dir
+
+phidget21
+dir
+
+tiff
+dir
+
+axtls
+dir
+
+tokyocabinet
+dir
+
+libcroco
+dir
+
+libdvdread
+dir
+
+libmpeg2
+dir
+
+orbit2
+dir
+
+openldap
+dir
+
+taglib
+dir
+
+libmpdclient
+dir
+
+libssh2
+dir
+
+libupnp
+dir
+
+clearsilver
+dir
+
+libpthread-stubs
+dir
+
+libmnl
+dir
+
+libftdi
+dir
+
+mxml
+dir
+
+firewall-mod-save
+dir
+
+vips
+dir
+
+alsa-lib
+dir
+
+libatomicops
+dir
+
+libptmalloc3
+dir
+
+uclibc++
+dir
+
+elfutils
+dir
+
+cgilib
+dir
+
+wxbase
+dir
+
+libconfig
+dir
+
+glib2
+dir
+
+nmeap
+dir
+
+liboping
+dir
+
+libpam
+dir
+
+curl
+dir
+
+glibmm
+dir
+
+spandsp
+dir
+
+credis
+dir
+
+howl
+dir
+
+libsndfile
+dir
+
+gnutls
+dir
+
+libgssapi
+dir
+
+glib
+dir
+
+libsdl_mixer
+dir
+
+libcelt
+dir
+
+keynote
+dir
+
+libnfnetlink
+dir
+
+libmodbus
+dir
+
+ftplib
+dir
+
+libvorbisidec
+dir
+
+argtable
+dir
+
+gconv-modules
+dir
+
+rem
+dir
+
+ortp
+dir
+
+libdbi
+dir
+
+gsl
+dir
+
+gsm
+dir
+
+rrdtool-1.0.x
+dir
+
+libaudiofile
+dir
+
+xmpp4r
+dir
+
+libffi
+dir
+
+opal
+dir
+
+libnfc
+dir
+
+libcli
+dir
+
+liblo
+dir
+
+confuse
+dir
+
+intltool
+dir
+
+libnetfilter-queue
+dir
+
+libmpd
+dir
+
+fcgi
+dir
+
+libdirectfb
+dir
+
+gdbm
+dir
+
+libsdl
+dir
+
+libtheora
+dir
+
+libtasn1
+dir
+
+nacl
+dir
+
+argp-standalone
+dir
+
+protobuf-c
+dir
+
+libexif
+dir
+
+apr
+dir
+
+popt
+dir
+
+freetype
+dir
+
+libosip2
+dir
+
+libnids
+dir
+
+libsamplerate
+dir
+
+speex
+dir
+
+libnatpmp
+dir
+
+libimobiledevice
+dir
+
+libamsel
+dir
+
+sysfsutils
+dir
+
+libmad
+dir
+
+libmbus
+dir
+
+libaio
+dir
+
+polarssl
+dir
+
+serdisplib
+dir
+
+clinkc
+dir
+
+lzo
+dir
+
+libowfat
+dir
+
+libevent
+dir
+
+fribidi
+dir
+
+libsynce
+dir
+
+libffi-sable
+dir
+
+file
+dir
+
+libsml
+dir
+
+gmp
+dir
+
+sqlite2
+dir
+
+libdmapsharing
+dir
+
+gettext-full
+dir
+
+libtorrent
+dir
+
+sqlite3
+dir
+
+matrixssl
+dir
+
+libnfsidmap
+dir
+
+pcre
+dir
+
+gd
+dir
+
+giflib
+dir
+
+libcrypto++
+dir
+
+st2205tool
+dir
+
+db47
+dir
+
+libid3tag
+dir
+
+libsigc++
+dir
+
+libdlna
+dir
+
+libfreefare
+dir
+
+rblibtorrent
+dir
+
+ptlib
+dir
+
+libart
+dir
+
+libdvbpsi
+dir
+
+libsrtp
+dir
+
+libassuan
+dir
+
+expat
+dir
+
+libIDL2
+dir
+
+eventlog
+dir
+
+xmlrpc-c
+dir
+
+iksemel
+dir
+
+libshout
+dir
+
+libyaml
+dir
+
+wt
+dir
+
+libgpg-error
+dir
+
+libpar2
+dir
+
+libvorbis
+dir
+
+apr-util
+dir
+
+radlib
+dir
+
+poco
+dir
+
+libol
+dir
+
+libogg
+dir
+
+libvncserver
+dir
+
+libmcrypt
+dir
+
+libcunit
+dir
+
+jansson
+dir
+
+faad2
+dir
+
+pwlib
+dir
+
+libnet-1.0.x
+dir
+
+libusb
+dir
+
+libxslt
+dir
+
+libmpcdec
+dir
+
+libfreenect
+dir
+
+librpcsecgss
+dir
+
+ucl
+dir
+
+boost
+dir
+
+slang2
+dir
+
+ustl
+dir
+
+srtp
+dir
+
+libevent2
+dir
+
+libelf
+dir
+
+ossp-js
+dir
+
+gpgme
+dir
+
+zaptel
+dir
+
+libinklevel
+dir
+
+ldns
+dir
+
+pthsem
+dir
+
+libidn
+dir
+
+openh323
+dir
+
+libnetfilter-log
+dir
+
+libmicrohttpd
+dir
+
+libiconv
+dir
+
+flac
+dir
+
+mysql
+dir
+
+zaptel-1.4.x
+dir
+
+libmikmod
+dir
+
+libxapian
+dir
+
+aalib
+dir
+
+libtwin
+dir
+
+libgphoto2
+dir
+
+libpfm
+dir
+
+libpng
+dir
+
+libusb-1.0
+dir
+
+leptonica
+dir
+

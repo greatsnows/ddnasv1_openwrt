@@ -1,0 +1,6 @@
+#!/bin/sh
+
+# 种子下载完成后发送邮件到指定邮箱
+sh /etc/transmission/torrent_finished_email
+
+

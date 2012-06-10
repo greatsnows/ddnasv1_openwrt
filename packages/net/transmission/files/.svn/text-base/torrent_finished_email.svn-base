@@ -1,0 +1,46 @@
+#!/bin/sh
+# copyrights 
+# (1) Script VER 0.10a-1 for openwrt  by feixiang<feixiang@openwrt.org.cn>
+
+. $IPKG_INSTROOT/etc/functions.sh
+
+# We need this to actually send the mail, so make sure it's installed msmtp
+sendmail=/usr/sbin/sendmail
+
+
+filepath=/tmp/.trextra
+mkdir -p $filepath
+trextradebug=0
+
+###
+###  torrent download finished Send the mail...
+###
+
+trfinished_mail(){
+
+
+config_get from_address $1 from_address
+config_get use_enable $1  use_enable 0
+config_get address $1 address 
+if [ "$use_enable" == "1" ];then
+from_address=$(uci get email.@emailserver[0].from_address)
+echo "From: ${from_address}" > $filepath/transmissionfinish
+echo "Subject: Torrent No. ${TR_TORRENT_ID} downloaded"  >>$filepath/transmissionfinish
+echo -e "To: ${address} \n" >>$filepath/transmissionfinish
+echo -e " \n" >>$filepath/transmissionfinish
+echo "Transmission在$TR_TIME_LOCALTIME 将 \"$TR_TORRENT_NAME\"下载完成"  >> $filepath/transmissionfinish
+$sendmail $address < $filepath/transmissionfinish
+fi
+
+
+}
+
+config_load email
+config_foreach trfinished_mail mail_address
+rm -rf $filepath/transmissionfinish
+
+###
+###  Send the mail finished
+###
+
+

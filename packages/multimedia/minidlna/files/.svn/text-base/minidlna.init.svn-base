@@ -1,0 +1,16 @@
+#!/bin/sh /etc/rc.common
+# Copyright (C) 2010 OpenWrt.org
+
+START=50
+
+SERVICE_USE_PID=1
+
+start() {
+	mkdir -m 0755 -p /var/log
+	mkdir -m 0755 -p /var/run/minidlna
+	service_start /usr/bin/minidlna
+}
+
+stop() {
+	service_stop /usr/bin/minidlna
+}

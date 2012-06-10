@@ -1,0 +1,24 @@
+Index: transmission-2.42/libtransmission/version.h
+===================================================================
+--- transmission-2.42.orig/libtransmission/version.h	2011-05-23 13:34:54.000000000 +0200
++++ transmission-2.42/libtransmission/version.h	2011-05-23 13:48:03.000000000 +0200
+@@ -1,10 +1,10 @@
+-#define PEERID_PREFIX             "-TR2500-"
+-#define USERAGENT_PREFIX          "2.50"
+-#define SVN_REVISION              "13228"
+-#define SVN_REVISION_NUM          13228
+-#define SHORT_VERSION_STRING      "2.50"
+-#define LONG_VERSION_STRING       "2.50 (13228)"
+-#define VERSION_STRING_INFOPLIST  2.50
++#define PEERID_PREFIX             "-TR2320-"
++#define USERAGENT_PREFIX          "2.32"
++#define SVN_REVISION              "12527"
++#define SVN_REVISION_NUM          12527
++#define SHORT_VERSION_STRING      "2.32"
++#define LONG_VERSION_STRING       "2.32 (12888)"
++#define VERSION_STRING_INFOPLIST  2.32
+ #define MAJOR_VERSION             2
+-#define MINOR_VERSION             50
++#define MINOR_VERSION             32
+ #define TR_STABLE_RELEASE         1
+ 
