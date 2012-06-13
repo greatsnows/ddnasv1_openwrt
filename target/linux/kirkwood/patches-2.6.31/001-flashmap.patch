@@ -1,0 +1,53 @@
+--- a/arch/arm/mach-feroceon-kw/flashmap.c
++++ b/arch/arm/mach-feroceon-kw/flashmap.c
+@@ -66,6 +66,36 @@ struct maps_init_info
+ static struct maps_init_info maps[MTD_MAX_FLASH_NUMBER];
+ static unsigned int mapsNum = 0;
+ 
++//Patch by QNAP: SPI Boot Flash fixed
++static struct mtd_partition TS_partitions[] = {
++       {
++          .name = "U-Boot",
++          .offset = 0x00000000,
++          .size = 0x00080000,
++          .mask_flags = MTD_WRITEABLE,  // force read-only //
++        },
++        {
++          .name = "kernel",             // default kernel image //
++          .offset = 0x00200000,
++          .size = 0x00200000,
++          .mask_flags = 0x0,
++        },
++        {
++          .name = "rootfs",
++          .offset = 0x00400000,
++          .size = 0x00d00000,
++          .mask_flags = 0x0,
++        },
++        {
++          .name = "firmware",
++	 .size	= 0x00f00000,
++	 .offset = 0x00200000,
++          .mask_flags = 0x0,
++        },   
++};
++
++////////////////////////////////////////////////
++
+ #if defined (CONFIG_MTD_CFI) || defined (CONFIG_MTD_JEDECPROBE)
+ static char * cfiDev = "cfi_flash";
+ static char * cfiMtdList[] = { "cfi_probe", "jedec_probe", "map_rom", NULL };
+@@ -190,8 +220,11 @@ static int flashProbe(char ** mtdDrv, struct map_info * map, struct mtd_info **
+ 			(*mtd)->owner = THIS_MODULE;
+ 
+ #ifdef CONFIG_MTD_PARTITIONS
+-			mtd_parts_nb = parse_mtd_partitions(*mtd, part_probes, &mtd_parts, 0);
+-
++//Patch by QNAP: SPI Boot Flash fixed
++			mtd_parts=TS_partitions;
++			mtd_parts_nb=4;
++//			mtd_parts_nb = parse_mtd_partitions(*mtd, part_probes, &mtd_parts, 0);
++/////////////////////////////////////////////////            
+ 			if (mtd_parts_nb > 0)
+ 			{
+ 				add_mtd_partitions (*mtd, mtd_parts, mtd_parts_nb);
