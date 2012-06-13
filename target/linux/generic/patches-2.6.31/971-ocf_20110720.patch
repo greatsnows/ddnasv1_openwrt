@@ -96,16 +96,6 @@
  
  static void f_modown(struct file *filp, struct pid *pid, enum pid_type type,
                       int force)
---- a/include/linux/miscdevice.h
-+++ b/include/linux/miscdevice.h
-@@ -12,6 +12,7 @@
- #define APOLLO_MOUSE_MINOR	7
- #define PC110PAD_MINOR		9
- /*#define ADB_MOUSE_MINOR	10	FIXME OBSOLETE */
-+#define CRYPTODEV_MINOR		70	/* /dev/crypto */
- #define WATCHDOG_MINOR		130	/* Watchdog timer     */
- #define TEMP_MINOR		131	/* Temperature Sensor */
- #define RTC_MINOR		135
 --- a/include/linux/random.h
 +++ b/include/linux/random.h
 @@ -50,6 +50,10 @@ extern void add_input_randomness(unsigne
