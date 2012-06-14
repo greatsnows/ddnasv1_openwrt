@@ -1,0 +1,306 @@
+--- a/arch/arm/mach-feroceon-kw/kw_family/boardEnv/mvBoardEnvSpec.c
++++ b/arch/arm/mach-feroceon-kw/kw_family/boardEnv/mvBoardEnvSpec.c
+@@ -67,7 +67,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ #include "twsi/mvTwsi.h"
+ 
+ #define DB_88F6281A_BOARD_PCI_IF_NUM            0x0
+-#define DB_88F6281A_BOARD_TWSI_DEF_NUM		    0x7
++#define DB_88F6281A_BOARD_TWSI_DEF_NUM		    0x1
+ #define DB_88F6281A_BOARD_MAC_INFO_NUM		    0x2
+ #define DB_88F6281A_BOARD_GPP_INFO_NUM		    0x1
+ #define DB_88F6281A_BOARD_MPP_CONFIG_NUM		0x1
+@@ -88,21 +88,20 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ MV_BOARD_TWSI_INFO	db88f6281AInfoBoardTwsiDev[] =
+ 	/* {{MV_BOARD_DEV_CLASS	devClass, MV_U8	twsiDevAddr, MV_U8 twsiDevAddrType}} */
+ 	{
+-	{BOARD_DEV_TWSI_EXP, 0x20, ADDR7_BIT},
+-	{BOARD_DEV_TWSI_EXP, 0x21, ADDR7_BIT},
+-	{BOARD_DEV_TWSI_EXP, 0x27, ADDR7_BIT},
+-	{BOARD_DEV_TWSI_SATR, 0x4C, ADDR7_BIT},
+-	{BOARD_DEV_TWSI_SATR, 0x4D, ADDR7_BIT},
+-	{BOARD_DEV_TWSI_SATR, 0x4E, ADDR7_BIT},
+ 	{BOARD_TWSI_AUDIO_DEC, 0x4A, ADDR7_BIT}
+ 	};
+ 
+ MV_BOARD_MAC_INFO db88f6281AInfoBoardMacInfo[] = 
+ 	/* {{MV_BOARD_MAC_SPEED	boardMacSpeed, MV_U8 boardEthSmiAddr}} */
+ 	{
+-	{BOARD_MAC_SPEED_AUTO, 0x8},
+-	{BOARD_MAC_SPEED_AUTO, 0x9}
++	{BOARD_MAC_SPEED_1000M, 0xa},
++	{BOARD_MAC_SPEED_AUTO, 0x1}
+ 	}; 
++MV_BOARD_SWITCH_INFO db88f6281AInfoBoardSwitchInfo[] = 
++	/* MV_32 linkStatusIrq, {MV_32 qdPort0, MV_32 qdPort1, MV_32 qdPort2, MV_32 qdPort3, MV_32 qdPort4}, 
++		MV_32 qdCpuPort, MV_32 smiScanMode, MV_32 switchOnPort} */
++	{{38, {0, 1, 2, 3, 4}, 5, 2, 0},
++	 {-1, {-1}, -1, -1, -1}};
+ 
+ MV_BOARD_MPP_TYPE_INFO db88f6281AInfoBoardMppTypeInfo[] = 
+ 	/* {{MV_BOARD_MPP_TYPE_CLASS	boardMppGroup1,
+@@ -169,7 +168,7 @@ MV_BOARD_INFO db88f6281AInfo = {
+ 	DB_88F6281A_OE_VAL_HIGH,				/* gppOutValHigh */
+ 	0,						/* gppPolarityValLow */
+ 	BIT6, 						/* gppPolarityValHigh */
+-	NULL,						/* pSwitchInfo */
++	db88f6281AInfoBoardSwitchInfo,				/* pSwitchInfo */
+     DB_88F6281A_BOARD_NAND_READ_PARAMS,
+     DB_88F6281A_BOARD_NAND_WRITE_PARAMS,
+     DB_88F6281A_BOARD_NAND_CONTROL
+@@ -177,7 +176,7 @@ MV_BOARD_INFO db88f6281AInfo = {
+ 
+ 
+ #define RD_88F6281A_BOARD_PCI_IF_NUM		0x0
+-#define RD_88F6281A_BOARD_TWSI_DEF_NUM		0x2
++#define RD_88F6281A_BOARD_TWSI_DEF_NUM		0x1
+ #define RD_88F6281A_BOARD_MAC_INFO_NUM		0x2
+ #define RD_88F6281A_BOARD_GPP_INFO_NUM		0x5
+ #define RD_88F6281A_BOARD_MPP_GROUP_TYPE_NUM	0x1
+@@ -190,31 +189,35 @@ MV_BOARD_INFO db88f6281AInfo = {
+     #define RD_88F6281A_BOARD_DEVICE_CONFIG_NUM	    0x1
+ #endif
+ #define RD_88F6281A_BOARD_DEBUG_LED_NUM		0x0
+-#define RD_88F6281A_BOARD_NAND_READ_PARAMS		    0x000C0282
+-#define RD_88F6281A_BOARD_NAND_WRITE_PARAMS		    0x00010305
+-#define RD_88F6281A_BOARD_NAND_CONTROL		        0x01c00541
++#define RD_88F6281A_BOARD_NAND_READ_PARAMS		    0x003E07CF
++#define RD_88F6281A_BOARD_NAND_WRITE_PARAMS		    0x000F0F0F
++#define RD_88F6281A_BOARD_NAND_CONTROL		        0x01C7D943
++
++//#define RD_88F6281A_BOARD_NAND_READ_PARAMS		    0x000C0282
++//#define RD_88F6281A_BOARD_NAND_WRITE_PARAMS		    0x00010305
++//#define RD_88F6281A_BOARD_NAND_CONTROL		        0x01c00541
+ 
+ MV_BOARD_MAC_INFO rd88f6281AInfoBoardMacInfo[] = 
+ 	/* {{MV_BOARD_MAC_SPEED	boardMacSpeed, MV_U8 boardEthSmiAddr}} */
+ 	{{BOARD_MAC_SPEED_1000M, 0xa},
+-    {BOARD_MAC_SPEED_AUTO, 0xb}
++    {BOARD_MAC_SPEED_AUTO, 0x1}
+ 	}; 
+ 
+ MV_BOARD_SWITCH_INFO rd88f6281AInfoBoardSwitchInfo[] = 
+ 	/* MV_32 linkStatusIrq, {MV_32 qdPort0, MV_32 qdPort1, MV_32 qdPort2, MV_32 qdPort3, MV_32 qdPort4}, 
+ 		MV_32 qdCpuPort, MV_32 smiScanMode, MV_32 switchOnPort} */
+-	{{38, {0, 1, 2, 3, -1}, 5, 2, 0},
++	{{42, {0, 1, 2, 3, 4}, 5, 2, 0},
+ 	 {-1, {-1}, -1, -1, -1}};
+ 
+ MV_BOARD_TWSI_INFO	rd88f6281AInfoBoardTwsiDev[] =
+ 	/* {{MV_BOARD_DEV_CLASS	devClass, MV_U8	twsiDevAddr, MV_U8 twsiDevAddrType}} */
+ 	{
+-	{BOARD_DEV_TWSI_EXP, 0xFF, ADDR7_BIT}, /* dummy entry to align with modules indexes */
+-	{BOARD_DEV_TWSI_EXP, 0x27, ADDR7_BIT}
++	{BOARD_TWSI_AUDIO_DEC, 0x4A, ADDR7_BIT}/* dummy entry to align with modules indexes */
++	
+ 	};
+ 
+ MV_BOARD_MPP_TYPE_INFO rd88f6281AInfoBoardMppTypeInfo[] = 
+-	{{MV_BOARD_RGMII, MV_BOARD_TDM}
++	{{MV_BOARD_RGMII,  MV_BOARD_AUTO}
+ 	}; 
+ 
+ MV_DEV_CS_INFO rd88f6281AInfoBoardDeCsInfo[] = 
+@@ -232,13 +235,14 @@ MV_DEV_CS_INFO rd88f6281AInfoBoardDeCsInfo[] =
+ 
+ MV_BOARD_GPP_INFO rd88f6281AInfoBoardGppInfo[] = 
+ 	/* {{MV_BOARD_GPP_CLASS	devClass, MV_U8	gppPinNum}} */
+-	{{BOARD_GPP_SDIO_DETECT, 28},
+-    {BOARD_GPP_USB_OC, 29},
+-    {BOARD_GPP_WPS_BUTTON, 35},
+-    {BOARD_GPP_MV_SWITCH, 38},
+-    {BOARD_GPP_USB_VBUS, 49}
++	{
++	{BOARD_GPP_SDIO_DETECT, 28}
++	/*muxed with TDM/Audio module via IOexpender
++	{BOARD_GPP_SDIO_DETECT, 38},
++	{BOARD_GPP_USB_VBUS, 49}*/
+ 	};
+ 
++
+ MV_BOARD_MPP_INFO	rd88f6281AInfoBoardMppConfigValue[] = 
+ 	{{{
+ 	RD_88F6281A_MPP0_7,		
+@@ -257,7 +261,7 @@ MV_BOARD_INFO rd88f6281AInfo = {
+ 	RD_88F6281A_BOARD_MPP_CONFIG_NUM,		/* numBoardMppConfig */
+ 	rd88f6281AInfoBoardMppConfigValue,
+ 	0,						/* intsGppMaskLow */
+-	(1 << 3),					/* intsGppMaskHigh */
++	0,					/* intsGppMaskHigh */
+ 	RD_88F6281A_BOARD_DEVICE_CONFIG_NUM,		/* numBoardDevIf */
+ 	rd88f6281AInfoBoardDeCsInfo,
+ 	RD_88F6281A_BOARD_TWSI_DEF_NUM,			/* numBoardTwsiDev */
+@@ -882,18 +886,18 @@ MV_BOARD_INFO db88f6280AInfo = {
+     DB_88F6280A_BOARD_NAND_CONTROL
+ };
+ 
++
+ #define RD_88F6282A_BOARD_PCI_IF_NUM            	0x0
+ #define RD_88F6282A_BOARD_TWSI_DEF_NUM		0x0
+ #define RD_88F6282A_BOARD_MAC_INFO_NUM		0x2
+-#define RD_88F6282A_BOARD_GPP_INFO_NUM		0x5
++#define RD_88F6282A_BOARD_GPP_INFO_NUM		0x3
+ #define RD_88F6282A_BOARD_MPP_CONFIG_NUM		0x1
+ #define RD_88F6282A_BOARD_MPP_GROUP_TYPE_NUM	0x1
+ #define RD_88F6282A_BOARD_DEVICE_CONFIG_NUM	0x1
+-#define RD_88F6282A_BOARD_NAND_READ_PARAMS	0x000C0282
+-#define RD_88F6282A_BOARD_NAND_WRITE_PARAMS	0x00010305
++#define RD_88F6282A_BOARD_NAND_READ_PARAMS	0x000E02C3
++#define RD_88F6282A_BOARD_NAND_WRITE_PARAMS	0x00040405
+ #define RD_88F6282A_BOARD_NAND_CONTROL		0x01c00541
+ 
+-
+ MV_BOARD_TWSI_INFO	rd88f6282aInfoBoardTwsiDev[] =
+ 	/* {{MV_BOARD_DEV_CLASS	devClass, MV_U8	twsiDevAddr, MV_U8 twsiDevAddrType}} */
+ 	{
+@@ -914,16 +918,23 @@ MV_BOARD_MPP_TYPE_INFO rd88f6282aInfoBoardMppTypeInfo[] =
+ 
+ MV_BOARD_GPP_INFO rd88f6282aInfoBoardGppInfo[] = 
+ 	/* {{MV_BOARD_GPP_CLASS	devClass, MV_U8	gppPinNum}} */
+-	{{BOARD_GPP_WPS_BUTTON, 29},
+-	{BOARD_GPP_HDD_POWER, 35},
++	{{BOARD_GPP_HDD_POWER, 35},
+     	{BOARD_GPP_FAN_POWER, 34},
+-    	{BOARD_GPP_USB_VBUS, 37},
+-    	{BOARD_GPP_USB_VBUS_EN, 37}
++	{BOARD_GPP_WPS_BUTTON, 29},
+ 	};
+ 
+ MV_DEV_CS_INFO rd88f6282aInfoBoardDeCsInfo[] = 
+ 		/*{deviceCS, params, devType, devWidth}*/			   
++#if defined(MV_NAND) && defined(MV_NAND_BOOT)
+ 		 {{0, N_A, BOARD_DEV_NAND_FLASH, 8}};	   /* NAND DEV */         
++#elif defined(MV_NAND) && defined(MV_SPI_BOOT)
++		 {
++         {0, N_A, BOARD_DEV_NAND_FLASH, 8},	   /* NAND DEV */
++         {1, N_A, BOARD_DEV_SPI_FLASH, 8},	   /* SPI DEV */
++         };
++#else
++	 {{1, N_A, BOARD_DEV_SPI_FLASH, 8}};	   /* SPI DEV */         
++#endif
+ 
+ MV_BOARD_MPP_INFO	rd88f6282aInfoBoardMppConfigValue[] = 
+ 	{{{
+@@ -966,7 +977,7 @@ MV_BOARD_INFO rd88f6282aInfo = {
+ 	RD_88F6282A_OE_HIGH,				/* gppOutEnHigh */
+ 	RD_88F6282A_OE_VAL_LOW,				/* gppOutValLow */
+ 	RD_88F6282A_OE_VAL_HIGH,				/* gppOutValHigh */
+-	BIT29,						/* gppPolarityValLow */
++	0,						/* gppPolarityValLow */
+ 	BIT6, 						/* gppPolarityValHigh */
+ 	rd88f6282aInfoBoardSwitchInfo,			/* pSwitchInfo */
+     	RD_88F6282A_BOARD_NAND_READ_PARAMS,
+@@ -988,11 +999,10 @@ MV_BOARD_INFO rd88f6282aInfo = {
+     #define DB_88F6282A_BOARD_DEVICE_CONFIG_NUM	    0x1
+ #endif
+ #define DB_88F6282A_BOARD_DEBUG_LED_NUM		    0x0
+-#define DB_88F6282A_BOARD_NAND_READ_PARAMS		    0x000C0282
+-#define DB_88F6282A_BOARD_NAND_WRITE_PARAMS		    0x00010305
++#define DB_88F6282A_BOARD_NAND_READ_PARAMS		    0x000E02C3
++#define DB_88F6282A_BOARD_NAND_WRITE_PARAMS		    0x00040405
+ #define DB_88F6282A_BOARD_NAND_CONTROL		        0x01c00541
+ 
+-
+ MV_BOARD_TWSI_INFO	db88f6282AInfoBoardTwsiDev[] =
+ 	/* {{MV_BOARD_DEV_CLASS	devClass, MV_U8	twsiDevAddr, MV_U8 twsiDevAddrType}} */
+ 	{
+@@ -1262,7 +1272,7 @@ MV_BOARD_INFO*	boardInfoTbl[] = 	{
+                     &sheevaPlugInfo,
+                     &db88f6280AInfo,
+                     &db88f6282AInfo,
+-		    		&rd88f6282aInfo,
++		    &rd88f6282aInfo,
+                     &db88f6701AInfo,
+                     &db88f6702AInfo
+ 					};
+--- a/arch/arm/mach-feroceon-kw/kw_family/boardEnv/mvBoardEnvSpec.h
++++ b/arch/arm/mach-feroceon-kw/kw_family/boardEnv/mvBoardEnvSpec.h
+@@ -128,7 +128,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ #define DB_88F6281A_BP_ID			(BOARD_ID_BASE)
+ #define DB_88F6281_BP_MLL_ID        1680
+ #define RD_88F6281A_ID				(BOARD_ID_BASE+0x1)
+-#define RD_88F6281_MLL_ID			1682
++#define RD_88F6281_MLL_ID			1932
+ #define DB_88F6192A_BP_ID			(BOARD_ID_BASE+0x2)
+ #define RD_88F6192A_ID				(BOARD_ID_BASE+0x3)
+ #define RD_88F6192_MLL_ID			1681
+@@ -136,10 +136,10 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ #define DB_88F6190A_BP_ID			(BOARD_ID_BASE+0x5)
+ #define RD_88F6190A_ID				(BOARD_ID_BASE+0x6)
+ #define RD_88F6281A_PCAC_ID			(BOARD_ID_BASE+0x7)
+-#define DB_CUSTOMER_ID			    (BOARD_ID_BASE+0x8)
+-#define SHEEVA_PLUG_ID			    (BOARD_ID_BASE+0x9)
+-#define DB_88F6280A_BP_ID		    (BOARD_ID_BASE+0xA)
+-#define DB_88F6282A_BP_ID		    (BOARD_ID_BASE+0xB)
++#define DB_CUSTOMER_ID			    	(BOARD_ID_BASE+0x8)
++#define SHEEVA_PLUG_ID			    	(BOARD_ID_BASE+0x9)
++#define DB_88F6280A_BP_ID		    	(BOARD_ID_BASE+0xA)
++#define DB_88F6282A_BP_ID		    	(BOARD_ID_BASE+0xB)
+ #define RD_88F6282A_ID		    		(BOARD_ID_BASE+0xC)
+ #define DB_88F6701A_BP_ID			(BOARD_ID_BASE+0xD)
+ #define DB_88F6702A_BP_ID			(BOARD_ID_BASE+0xE)
+@@ -147,14 +147,14 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ 
+ /* DB-88F6281A-BP */
+ #if defined(MV_NAND)
+-    #define DB_88F6281A_MPP0_7                   	0x21111111
++    #define DB_88F6281A_MPP0_7                   	0x01111111
+ #else
+     #define DB_88F6281A_MPP0_7                   	0x21112220
+ #endif
+-#define DB_88F6281A_MPP8_15                   	0x11113311
+-#define DB_88F6281A_MPP16_23                   	0x00551111
+-#define DB_88F6281A_MPP24_31                   	0x00000000
+-#define DB_88F6281A_MPP32_39                   	0x00000000
++#define DB_88F6281A_MPP8_15                   	0x33303311
++#define DB_88F6281A_MPP16_23                   	0x33331103
++#define DB_88F6281A_MPP24_31                   	0x33003333
++#define DB_88F6281A_MPP32_39                   	0x00000533
+ #define DB_88F6281A_MPP40_47                   	0x00000000
+ #define DB_88F6281A_MPP48_55                   	0x00000000
+ #define DB_88F6281A_OE_LOW                       0x0
+@@ -189,7 +189,11 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ #define DB_88F6282A_OE_VAL_HIGH                  0x0
+ 
+ /* RD-88F6282 */
+-#define RD_88F6282A_MPP0_7                   	0x21111111
++#if defined(MV_NAND)
++	#define RD_88F6282A_MPP0_7                   	0x21111111
++#else
++	#define RD_88F6282A_MPP0_7                   	0x21112222
++#endif
+ #define RD_88F6282A_MPP8_15                   	0x433B2211
+ #define RD_88F6282A_MPP16_23                   	0x33331104
+ #define RD_88F6282A_MPP24_31                   	0x33023333
+@@ -199,22 +203,24 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ #define RD_88F6282A_OE_LOW                       ~(BIT17)
+ #define RD_88F6282A_OE_HIGH                      ~(BIT2 | BIT3 | BIT4)
+ #define RD_88F6282A_OE_VAL_LOW                   BIT17
+-#define RD_88F6282A_OE_VAL_HIGH                  (BIT2|BIT3|BIT4)
++#define RD_88F6282A_OE_VAL_HIGH                  BIT4
++
++
+ 
+ /* RD-88F6281A */
+ #if defined(MV_NAND)
+-    #define RD_88F6281A_MPP0_7                   	0x21111111
++    #define RD_88F6281A_MPP0_7                   	0x01111111
+ #else
+-    #define RD_88F6281A_MPP0_7                   	0x21112220
++    #define RD_88F6281A_MPP0_7                   	0x01112222
+ #endif
+ #define RD_88F6281A_MPP8_15                   	0x11113311
+ #define RD_88F6281A_MPP16_23                   	0x33331111
+ #define RD_88F6281A_MPP24_31                   	0x33003333
+-#define RD_88F6281A_MPP32_39                   	0x20440533
+-#define RD_88F6281A_MPP40_47                   	0x22202222
+-#define RD_88F6281A_MPP48_55                   	0x00000002
+-#define RD_88F6281A_OE_LOW                      (BIT28 | BIT29)
+-#define RD_88F6281A_OE_HIGH                     (BIT3 | BIT6 | BIT17)
++#define RD_88F6281A_MPP32_39                   	0x00005033
++#define RD_88F6281A_MPP40_47                   	0x00000000
++#define RD_88F6281A_MPP48_55                   	0x00000000
++#define RD_88F6281A_OE_LOW                      (BIT28)
++#define RD_88F6281A_OE_HIGH                     0x0
+ #define RD_88F6281A_OE_VAL_LOW                   0x0
+ #define RD_88F6281A_OE_VAL_HIGH                  0x0
+ 
