@@ -9,18 +9,17 @@ include $(TOPDIR)/rules.mk
 ARCH:=arm
 BOARD:=kirkwood
 BOARDNAME:=Marvell Kirkwood
-FEATURES:=targz usb jffs2 squashfs
+FEATURES:=targz squashfs
 
 MAINTAINER:=Imre Kaloz <kaloz@openwrt.org>
 
-LINUX_VERSION:=3.2.12
+LINUX_VERSION:=2.6.31.8
 
 include $(INCLUDE_DIR)/target.mk
 
 KERNELNAME:="uImage"
 
 DEFAULT_PACKAGES += kmod-crypto-core kmod-crypto-mv-cesa \
-	kmod-leds-gpio kmod-gpio-button-hotplug swconfig \
-	kmod-ath9k wpad-mini uboot-envtools
+	swconfig \
 
 $(eval $(call BuildTarget))
